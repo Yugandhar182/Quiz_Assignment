@@ -98,7 +98,7 @@
   <main class="container mt-4">
 	{#if !isQuizStarted}
 	  {#if !firstName || !lastName || !email || !mobile}
-		<h1 style="color:red;">Please fill the form before starting the quiz</h1>
+		<h1 style="color:red;">Please fill the form before starting the quiz.</h1>
 	  {/if}
 	  <form on:submit|preventDefault={startQuiz}>
 		<div class="mb-3">
