@@ -98,7 +98,7 @@
   <main class="container mt-4">
 	{#if !isQuizStarted}
 	  {#if !firstName || !lastName || !email || !mobile}
-		<h1 style="color:red;">Please fill the form before starting the quiz.</h1>
+		<h1 style="color:red;">Please fill the form before starting the quiz</h1>
 	  {/if}
 	  <form on:submit|preventDefault={startQuiz}>
 		<div class="mb-3">
@@ -117,7 +117,7 @@
 		  <label for="mobile" class="form-label">Mobile Number</label>
 		  <input type="tel" class="form-control" id="mobile" bind:value={mobile} required>
 		</div>
-		<button type="submit" class="btn btn-primary">Start Quiz</button>
+		<button type="submit" class="btn btn-primary" disabled={!firstName || !lastName || !email || !mobile}>Start Quiz</button>
 	  </form>
 	{:else if !isQuizFinished}
 	  <h1 style="color:red;">Answer the following quiz having 5 questions</h1>
@@ -159,5 +159,4 @@
 	  </div>
 	{/if}
   </main>
-  
   
