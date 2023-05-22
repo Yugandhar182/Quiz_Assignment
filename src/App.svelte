@@ -40,11 +40,6 @@
 	let isQuizStarted = false;
 	let isQuizFinished = false;
   
-	let firstName = "";
-	let lastName = "";
-	let email = "";
-	let mobile = "";
-  
 	function selectOption(option) {
 	  questions[currentQuestion].selected = option;
 	}
@@ -65,11 +60,7 @@
 	}
   
 	function startQuiz() {
-	  if (firstName && lastName && email && mobile) {
-		isQuizStarted = true;
-	  } else {
-		alert("Please fill in all the details.");
-	  }
+	  isQuizStarted = true;
 	}
   
 	onMount(() => {
@@ -93,34 +84,34 @@
 	  background-color: #007bff;
 	  color: #fff;
 	}
+  
+	.correct {
+	  color: green;
+	}
+  
+	.incorrect {
+	  color: red;
+	}
   </style>
   
   <main class="container mt-4">
 	{#if !isQuizStarted}
-	  {#if !firstName || !lastName || !email || !mobile}
-		<h1 style="color:red;">Please fill the form before starting the quiz</h1>
-	  {/if}
 	  <form on:submit|preventDefault={startQuiz}>
-		<div class="mb-3">
-		  <label for="firstName" class="form-label">First Name</label>
-		  <input type="text" class="form-control" id="firstName" bind:value={firstName} required>
+		<div class="card">
+		  <div class="card-body">
+			<h1 class="card-title">Quiz Instructions</h1>
+			<p class="card-text">Please read the following instructions before starting the quiz:</p>
+			<ol>
+			  <li>Read the Questions Carefully: Take your time to understand each question before selecting an answer. Misinterpreting a question can lead to choosing the wrong option.</li>
+			  <li>Answer Every Question: Try to answer every question, even if you are unsure. Leaving a question unanswered guarantees it will be incorrect. Make an educated guess if necessary.</li>
+			  <li>Use Process of Elimination: If you're unsure about an answer, try eliminating the options that are clearly incorrect. Narrowing down the choices can increase your chances of selecting the correct answer.</li>
+			  <li>Manage Your Time: Keep an eye on the time remaining for the quiz. Allocate a suitable amount of time for each question to ensure you can complete the quiz within the given time limit.</li>
+			</ol>
+			<button type="submit" class="btn btn-primary">Start Quiz</button>
+		  </div>
 		</div>
-		<div class="mb-3">
-		  <label for="lastName" class="form-label">Last Name</label>
-		  <input type="text" class="form-control" id="lastName" bind:value={lastName} required>
-		</div>
-		<div class="mb-3">
-		  <label for="email" class="form-label">Email</label>
-		  <input type="email" class="form-control" id="email" bind:value={email} required>
-		</div>
-		<div class="mb-3">
-		  <label for="mobile" class="form-label">Mobile Number</label>
-		  <input type="tel" class="form-control" id="mobile" bind:value={mobile} required>
-		</div>
-		<button type="submit" class="btn btn-primary" disabled={!firstName || !lastName || !email || !mobile}>Start Quiz</button>
 	  </form>
 	{:else if !isQuizFinished}
-	  <h1 style="color:red;">Answer the following quiz having 5 questions</h1>
 	  <div class="card">
 		<div class="card-body">
 		  <h1 class="card-title">Question {currentQuestion + 1}</h1>
@@ -128,7 +119,11 @@
   
 		  <ul class="list-group">
 			{#each questions[currentQuestion].options as option}
-			  <li class="list-group-item" on:click={() => selectOption(option)} class:selected={questions[currentQuestion].selected === option}>
+			  <li
+				class="list-group-item"
+				on:click={() => selectOption(option)}
+				class:selected={questions[currentQuestion].selected === option}
+			  >
 				<div class="form-check">
 				  <input
 					class="form-check-input"
@@ -144,9 +139,13 @@
 		  </ul>
   
 		  {#if currentQuestion === questions.length - 1}
-			<button class="btn btn-primary mt-3" on:click={submitAnswer} disabled={!questions[currentQuestion].selected}>Submit</button>
+			<button class="btn btn-primary mt-3" on:click={submitAnswer} disabled={!questions[currentQuestion].selected}>
+			  Submit
+			</button>
 		  {:else}
-			<button class="btn btn-primary mt-3" on:click={submitAnswer} disabled={!questions[currentQuestion].selected}>Next</button>
+			<button class="btn btn-primary mt-3" on:click={submitAnswer} disabled={!questions[currentQuestion].selected}>
+			  Next
+			</button>
 		  {/if}
 		</div>
 	  </div>
@@ -155,6 +154,21 @@
 		<div class="card-body">
 		  <h1 class="card-title">Quiz Finished</h1>
 		  <p class="card-text">Your score: {score} out of {questions.length}</p>
+		  <h2 class="card-title">Answers</h2>
+		  <ul>
+			{#each questions as question}
+			  <li>
+				<strong>{question.question}</strong><br>
+				{#if question.selected === question.answer}
+				  <span class="correct">Your Answer: {question.selected}</span><br>
+				{:else}
+				  <span class="incorrect">Your Answer: {question.selected}</span><br>
+				{/if}
+				<em>Correct Answer: {question.answer}</em>
+				<hr>
+			  </li>
+			{/each}
+		  </ul>
 		</div>
 	  </div>
 	{/if}
