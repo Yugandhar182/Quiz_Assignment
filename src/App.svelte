@@ -1,3 +1,5 @@
+
+<h1 style="color:red;"> Answer the following the quiz</h1>
 <script>
 	import { onMount } from "svelte";
 	import 'bootstrap/dist/css/bootstrap.min.css';
