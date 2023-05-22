@@ -115,7 +115,7 @@
 		<button type="submit" class="btn btn-primary">Start Quiz</button>
 	  </form>
 	{:else if !isQuizFinished}
-	  <h1 style="color:red;">Answer the following quiz</h1>
+	  <h1 style="color:red;">Answer the following quiz having 5 questions</h1>
 	  <div class="card">
 		<div class="card-body">
 		  <h1 class="card-title">Question {currentQuestion + 1}</h1>
