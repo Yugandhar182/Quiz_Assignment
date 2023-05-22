@@ -88,12 +88,17 @@
 	li {
 	  cursor: pointer;
 	}
+  
+	.selected {
+	  background-color: #007bff;
+	  color: #fff;
+	}
   </style>
   
   <main class="container mt-4">
 	{#if !isQuizStarted}
 	  {#if !firstName || !lastName || !email || !mobile}
-		<h1 style="color:red;">Please fill the form before starting the quiz </h1>
+		<h1 style="color:red;">Please fill the form before starting the quiz</h1>
 	  {/if}
 	  <form on:submit|preventDefault={startQuiz}>
 		<div class="mb-3">
@@ -123,7 +128,7 @@
   
 		  <ul class="list-group">
 			{#each questions[currentQuestion].options as option}
-			  <li class="list-group-item" on:click={() => selectOption(option)}>
+			  <li class="list-group-item" on:click={() => selectOption(option)} class:selected={questions[currentQuestion].selected === option}>
 				<div class="form-check">
 				  <input
 					class="form-check-input"
@@ -138,7 +143,11 @@
 			{/each}
 		  </ul>
   
-		  <button class="btn btn-primary mt-3" on:click={submitAnswer}>Next</button>
+		  {#if currentQuestion === questions.length - 1}
+			<button class="btn btn-primary mt-3" on:click={submitAnswer} disabled={!questions[currentQuestion].selected}>Submit</button>
+		  {:else}
+			<button class="btn btn-primary mt-3" on:click={submitAnswer} disabled={!questions[currentQuestion].selected}>Next</button>
+		  {/if}
 		</div>
 	  </div>
 	{:else}
@@ -150,3 +159,5 @@
 	  </div>
 	{/if}
   </main>
+  
+  
